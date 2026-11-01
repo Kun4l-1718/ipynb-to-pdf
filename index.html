@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Notebook to PDF</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<!-- NOTEBOOK STYLES: copied from the JupyterLab light theme. Also written into the exported .html file. -->
+<style id="nb-css">
+@page { size: A4; margin: 0.5in; }
+
+.nb { font-family: system-ui, -apple-system, "Segoe UI", helvetica, arial, sans-serif; font-size: 13px; color: rgba(0,0,0,.87); background: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.nb, .nb * { box-sizing: border-box; }
+.nb .jp-Cell { padding: 5px; margin: 0; }
+.nb .jp-InputArea, .nb .jp-OutputArea-child { display: flex; align-items: flex-start; width: 100%; }
+.nb .jp-InputPrompt, .nb .jp-OutputPrompt { box-sizing: content-box; flex: 0 0 64px; width: 64px; padding: 6px 5px; font-family: menlo, consolas, "DejaVu Sans Mono", monospace; font-size: 13px; line-height: 1.3077; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; user-select: none; }
+.nb .jp-InputPrompt { color: #307fc1; }
+.nb .jp-OutputPrompt { color: #bf5b3d; }
+.nb .jp-InputArea-editor { flex: 1 1 auto; min-width: 0; overflow: hidden; border: 1px solid #e0e0e0; background: #f5f5f5; }
+.nb .highlight { color: #212121; }
+.nb .highlight pre { margin: 0; padding: 5px 4px; font-family: menlo, consolas, "DejaVu Sans Mono", monospace; font-size: 13px; line-height: 1.3077; color: inherit; white-space: pre-wrap; overflow-wrap: anywhere; tab-size: 4; }
+.nb .highlight .c1 { color: #408080; font-style: italic; }
+.nb .highlight .k, .nb .highlight .kn, .nb .highlight .kc { color: #008000; font-weight: bold; }
+.nb .highlight .o, .nb .highlight .ow { color: #a2f; font-weight: bold; }
+.nb .highlight .p { color: #05a; }
+.nb .highlight .m { color: #080; }
+.nb .highlight .s { color: #ba2121; }
+
+.nb .jp-Cell-outputWrapper { margin-top: 5px; }
+.nb .jp-OutputArea-output { flex: 1 1 auto; min-width: 0; overflow: auto; user-select: text; }
+.nb .jp-RenderedText { padding-left: 1ch; font-family: menlo, consolas, "DejaVu Sans Mono", monospace; font-size: 13px; line-height: 1.3077; text-align: left; }
+.nb .jp-RenderedText pre { margin: 0; padding: 0; border: none; font-family: inherit; font-size: 13px; line-height: inherit; color: rgba(0,0,0,.87); white-space: pre-wrap; overflow-wrap: anywhere; }
+.nb .jp-OutputArea-executeResult .jp-RenderedText { padding-top: 6px; }
+.nb .jp-stderr { background: #fdd; padding-top: 5px; }
+.nb .jp-RenderedImage img, .nb .jp-RenderedSVG svg { display: block; max-width: 100%; height: auto; }
+.nb .jp-RenderedImage, .nb .jp-RenderedSVG { padding: 6px 0 0 1ch; }
+
+.nb .jp-MarkdownOutput { flex: 1 1 auto; min-width: 0; padding-left: 5px; overflow: auto; }
+.nb .jp-RenderedHTMLCommon { color: rgba(0,0,0,.87); font-size: 14px; line-height: 1.6; padding-right: 20px; }
+.nb .jp-RenderedHTML { padding: 6px 20px 0 1ch; }
+.nb .jp-RenderedHTMLCommon h1, .nb .jp-RenderedHTMLCommon h2, .nb .jp-RenderedHTMLCommon h3, .nb .jp-RenderedHTMLCommon h4, .nb .jp-RenderedHTMLCommon h5, .nb .jp-RenderedHTMLCommon h6 { line-height: 1; font-weight: 500; font-style: normal; margin: 1.2em 0 .8em; }
+.nb .jp-RenderedHTMLCommon h1 { font-size: 2.0736em; }
+.nb .jp-RenderedHTMLCommon h2 { font-size: 1.728em; }
+.nb .jp-RenderedHTMLCommon h3 { font-size: 1.44em; }
+.nb .jp-RenderedHTMLCommon h4 { font-size: 1.2em; }
+.nb .jp-RenderedHTMLCommon h5 { font-size: 1em; }
+.nb .jp-RenderedHTMLCommon h6 { font-size: .83333em; }
+.nb .jp-RenderedHTMLCommon > :first-child { margin-top: .6em; }
+.nb .jp-RenderedHTMLCommon > :last-child { margin-bottom: .5em; }
+.nb .jp-RenderedHTMLCommon p { text-align: left; margin: 0 0 1em; }
+.nb .jp-RenderedHTMLCommon ul, .nb .jp-RenderedHTMLCommon ol { padding-left: 2em; margin: 0 0 1em; }
+.nb .jp-RenderedHTMLCommon ul { list-style: disc; }
+.nb .jp-RenderedHTMLCommon ol { list-style: decimal; }
+.nb .jp-RenderedHTMLCommon ul ul, .nb .jp-RenderedHTMLCommon ol ol, .nb .jp-RenderedHTMLCommon ul ol, .nb .jp-RenderedHTMLCommon ol ul { margin-bottom: 0; }
+.nb .jp-RenderedHTMLCommon ul ul { list-style: square; }
+.nb .jp-RenderedHTMLCommon a { color: #0d47a1; text-decoration: none; }
+.nb .jp-RenderedHTMLCommon a:hover { text-decoration: underline; }
+.nb .jp-RenderedHTMLCommon hr { color: #e0e0e0; background: #bdbdbd; margin: 1em 0; }
+.nb .jp-RenderedHTMLCommon pre, .nb .jp-RenderedHTMLCommon code { border: 0; background: #fff; font-family: menlo, consolas, "DejaVu Sans Mono", monospace; font-size: inherit; line-height: 1.3077; padding: 0; white-space: pre-wrap; }
+.nb .jp-RenderedHTMLCommon > pre { margin: 1.5em 2em; }
+.nb .jp-RenderedHTMLCommon :not(pre) > code { background: #eee; padding: 1px 5px; }
+.nb .jp-RenderedHTMLCommon blockquote { margin: 1em 2em; padding: 0 1em; border-left: 5px solid #e0e0e0; }
+.nb .jp-RenderedHTMLCommon img { max-width: 100%; height: auto; }
+.nb .jp-RenderedHTMLCommon table { border-collapse: collapse; border-spacing: 0; border: none; font-size: 13px; table-layout: fixed; margin: 0 auto 1em; }
+.nb .jp-RenderedHTML table { margin-left: 0; margin-right: 0; }
+.nb .jp-RenderedHTMLCommon thead { border-bottom: 1px solid #bdbdbd; vertical-align: bottom; }
+.nb .jp-RenderedHTMLCommon td, .nb .jp-RenderedHTMLCommon th, .nb .jp-RenderedHTMLCommon tr { vertical-align: middle; padding: .5em; line-height: normal; white-space: normal; max-width: none; border: none; }
+.nb .jp-RenderedHTML td, .nb .jp-RenderedHTML th, .nb .jp-RenderedHTML tr { text-align: right; }
+.nb .jp-RenderedHTMLCommon th { font-weight: bold; }
+.nb .jp-RenderedHTMLCommon tbody tr:nth-child(odd) { background: #fff; }
+.nb .jp-RenderedHTMLCommon tbody tr:nth-child(even) { background: #f5f5f5; }
+
+@media print {
+  .nb .jp-Cell { break-inside: avoid; }
+  .nb .jp-OutputArea-child { break-inside: avoid-page; }
+}
+</style>
+
+<!-- APP SHELL: Jupyter orange as the one accent, cool grey neutrals, paper stays white in both themes. -->
+<style>
+:root {
+  --bg: #eef0f3; --panel: #ffffff; --stage: #dde1e7; --ink: #14181f; --muted: #566070; --line: #d5dae1;
+  --accent: #c4510b; --accent-hover: #a24208; --on-accent: #ffffff; --tint: #fdf0e6; --danger: #b42318;
+  --font-ui: "Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, menlo, consolas, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #12151a; --panel: #1b1f26; --stage: #0d1014; --ink: #eceff4; --muted: #99a3b3; --line: #2a303a;
+    --accent: #f08a4b; --accent-hover: #f79a5e; --on-accent: #1b0d03; --tint: #2a1e15; --danger: #ff8a7a;
+    color-scheme: dark;
+  }
+}
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.5 var(--font-ui); }
+.wrap { max-width: 1180px; margin: 0 auto; padding: 28px 20px 56px; }
+.top { margin-bottom: 24px; }
+h1 { margin: 0; font-size: 28px; font-weight: 600; letter-spacing: -.01em; }
+.lead { margin: 6px 0 0; max-width: 62ch; color: var(--muted); }
+.layout { display: grid; grid-template-columns: minmax(0, 340px) minmax(0, 1fr); gap: 28px; align-items: start; }
+.tool { position: sticky; top: 20px; display: flex; flex-direction: column; gap: 24px; padding: 20px; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; }
+.step-label { margin: 0 0 10px; font: 500 11px var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+
+.drop { display: flex; flex-direction: column; gap: 4px; align-items: flex-start; padding: 16px; border: 1.5px dashed var(--line); border-radius: 8px; cursor: pointer; transition: border-color .15s, background-color .15s; }
+.drop:hover, .drop.over, .drop:focus-within { border-color: var(--accent); background: var(--tint); }
+.drop input { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+.drop:focus-within { outline: 2px solid var(--accent); outline-offset: 2px; }
+.drop strong { font-weight: 600; }
+.drop span { color: var(--muted); font-size: 14px; }
+.privacy { margin: 10px 0 0; font-size: 13px; color: var(--muted); }
+
+.file { display: flex; flex-direction: column; gap: 2px; margin-top: 14px; padding: 10px 12px; border-left: 3px solid var(--accent); background: var(--tint); border-radius: 0 6px 6px 0; min-width: 0; }
+.file b { font-weight: 600; overflow-wrap: anywhere; }
+.file small { font: 400 12px var(--font-mono); color: var(--muted); }
+.badge { display: inline-block; margin-left: 6px; padding: 0 6px; font: 500 10px var(--font-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--on-accent); background: var(--accent); border-radius: 3px; vertical-align: 1px; }
+
+.actions { display: flex; flex-direction: column; gap: 10px; }
+.btn { appearance: none; display: flex; flex-direction: column; align-items: flex-start; gap: 2px; width: 100%; padding: 11px 14px; font: 600 15px var(--font-ui); color: var(--ink); text-align: left; background: transparent; border: 1px solid var(--line); border-radius: 8px; cursor: pointer; transition: background-color .15s, border-color .15s; }
+.btn small { font: 400 12.5px var(--font-ui); color: var(--muted); }
+.btn:hover { border-color: var(--accent); background: var(--tint); }
+.btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.btn.primary { color: var(--on-accent); background: var(--accent); border-color: var(--accent); }
+.btn.primary small { color: inherit; opacity: .85; }
+.btn.primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
+.btn[disabled] { opacity: .6; cursor: progress; }
+.status { min-height: 1.5em; margin: 0; font-size: 13.5px; color: var(--muted); overflow-wrap: anywhere; }
+.status.error { color: var(--danger); }
+
+.stage { min-width: 0; padding: 14px; background: var(--stage); border-radius: 10px; }
+.stage-head { margin: 0 0 12px; font: 500 11px var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.paper { width: 794px; max-width: 100%; margin: 0 auto; padding: 48px; background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.18), 0 8px 30px rgba(0,0,0,.18); overflow-x: auto; }
+.error-box { padding: 12px; border: 1px solid #fdd; background: #fff5f5; color: #b42318; }
+
+@media (max-width: 880px) {
+  .layout { grid-template-columns: minmax(0, 1fr); }
+  .tool { position: static; }
+  .paper { padding: 20px 12px; }
+  .stage { padding: 10px; }
+}
+@media print {
+  body { background: #fff; }
+  .top, .tool, .stage-head { display: none !important; }
+  .wrap { max-width: none; padding: 0; }
+  .layout { display: block; }
+  .stage { padding: 0; background: none; border-radius: 0; }
+  .paper { width: auto; max-width: none; padding: 0; box-shadow: none; overflow: visible; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <h1>Notebook to PDF</h1>
+    <p class="lead">Drop in a .ipynb file from Google Colab. It is drawn like a Jupyter notebook, ready to save as an HTML file or a PDF for printing on A4.</p>
+  </header>
+
+  <div class="layout">
+    <aside class="tool" aria-label="Controls">
+      <section>
+        <p class="step-label">1 &middot; Upload</p>
+        <label class="drop" id="drop">
+          <input type="file" id="file" accept=".ipynb,application/json">
+          <strong>Drop a .ipynb file here</strong>
+          <span>or click to choose one</span>
+        </label>
+        <p class="privacy">Everything happens in this browser tab. Your notebook is not sent to a server.</p>
+        <div class="file" id="fileInfo"></div>
+      </section>
+
+      <section>
+        <p class="step-label">2 &middot; Check the preview</p>
+        <p class="status" id="pages" aria-live="polite"></p>
+      </section>
+
+      <section>
+        <p class="step-label">3 &middot; Export</p>
+        <div class="actions">
+          <button class="btn primary" id="btnPdf" type="button">Download PDF<small>A4, 0.5 in margins. One click.</small></button>
+          <button class="btn" id="btnPrint" type="button">Print / Save as PDF<small>Sharper, selectable text. Better for long notebooks.</small></button>
+          <button class="btn" id="btnHtml" type="button">Download HTML<small>Single file, Jupyter look.</small></button>
+        </div>
+        <p class="status" id="status" role="status" aria-live="polite"></p>
+      </section>
+    </aside>
+
+    <section class="stage" aria-label="Preview">
+      <p class="stage-head">Preview &middot; A4 page, 0.5 in margins</p>
+      <div class="paper"><div class="nb" id="nb"></div></div>
+    </section>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.6/purify.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+(function () {
+  "use strict";
+  var $ = function (s) { return document.querySelector(s); };
+
+  /* ---------- helpers ---------- */
+  function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+  function joinSrc(s) { return Array.isArray(s) ? s.join("") : (s || ""); }
+  function clean(html, cfg) {
+    if (window.DOMPurify) return window.DOMPurify.sanitize(html, cfg || {});
+    return html.replace(/<script[\s\S]*?<\/script>/gi, "").replace(/\son\w+\s*=\s*("[^"]*"|'[^']*')/gi, "");
+  }
+  function cleanCR(t) {
+    return t.replace(/\r\n/g, "\n").split("\n").map(function (l) { return l.split("\r").pop(); }).join("\n");
+  }
+
+  /* ---------- Python highlighter (token classes follow Pygments / nbconvert) ---------- */
+  var KW_K = new Set("assert async await break class continue def del elif else except finally for global if lambda nonlocal pass raise return try while with yield".split(" "));
+  var KW_KC = new Set(["True", "False", "None"]);
+  var KW_KN = new Set(["import", "from", "as"]);
+  var KW_OW = new Set(["and", "or", "not", "in", "is"]);
+  var TOKEN_RE = /(#[^\n]*)|((?:[rRbBuUfF]{1,2})?(?:"""[\s\S]*?(?:"""|$)|'''[\s\S]*?(?:'''|$)|"(?:\\[\s\S]|[^"\\\n])*(?:"|(?=\n)|$)|'(?:\\[\s\S]|[^'\\\n])*(?:'|(?=\n)|$)))|(0[xXoObB][\da-fA-F_]+|(?:\d[\d_]*\.?\d*|\.\d+)(?:[eE][+-]?\d+)?[jJ]?)|([A-Za-z_]\w*)|([()\[\]{},:;])|(\/\/=?|\*\*=?|>>=?|<<=?|->|:=|[-+*\/%=<>!&|^~@.]=?)/g;
+
+  function highlightPython(src) {
+    var re = new RegExp(TOKEN_RE.source, "g");
+    var out = "", last = 0, m;
+    function span(cls, t) { return '<span class="' + cls + '">' + esc(t) + "</span>"; }
+    while ((m = re.exec(src))) {
+      if (m.index > last) out += esc(src.slice(last, m.index));
+      last = re.lastIndex;
+      var t = m[0];
+      if (m[1]) out += span("c1", t);
+      else if (m[2]) out += span("s", t);
+      else if (m[3]) out += span("m", t);
+      else if (m[4]) {
+        if (KW_KC.has(t)) out += span("kc", t);
+        else if (KW_KN.has(t)) out += span("kn", t);
+        else if (KW_OW.has(t)) out += span("ow", t);
+        else if (KW_K.has(t)) out += span("k", t);
+        else out += esc(t);
+      }
+      else if (m[5]) out += span("p", t);
+      else if (m[6]) out += span("o", t);
+      else out += esc(t);
+    }
+    return out + esc(src.slice(last));
+  }
+
+  /* ---------- ANSI colours in tracebacks ---------- */
+  var ANSI = { 30: "#3e424d", 31: "#e75c58", 32: "#00a250", 33: "#ddb62b", 34: "#208ffb", 35: "#d160c4", 36: "#60c6c8", 37: "#c5c1b4",
+               90: "#282c36", 91: "#b22b31", 92: "#007427", 93: "#b27d12", 94: "#0065ca", 95: "#a03196", 96: "#258f8f", 97: "#a1a6b2" };
+  function ansiToHtml(text) {
+    text = esc(text);
+    var re = /\x1b\[([\d;]*)m/g, out = "", open = 0, last = 0, m;
+    while ((m = re.exec(text))) {
+      out += text.slice(last, m.index); last = re.lastIndex;
+      var codes = m[1] === "" ? [0] : m[1].split(";").map(Number), style = "", reset = false;
+      for (var i = 0; i < codes.length; i++) {
+        var c = codes[i];
+        if (c === 38 || c === 48) { i += (codes[i + 1] === 2 ? 4 : 2); continue; }
+        if (c === 0) reset = true;
+        else if (c === 1) style += "font-weight:bold;";
+        else if (c === 4) style += "text-decoration:underline;";
+        else if (ANSI[c]) style += "color:" + ANSI[c] + ";";
+      }
+      if (reset) { out += "</span>".repeat(open); open = 0; }
+      if (style) { out += '<span style="' + style + '">'; open++; }
+    }
+    out += text.slice(last) + "</span>".repeat(open);
+    return out.replace(/\x1b\[[\d;]*[A-Za-z]/g, "");
+  }
+
+  /* ---------- notebook -> HTML ---------- */
+  function markdownToHtml(cell) {
+    var src = joinSrc(cell.source);
+    var att = cell.attachments || {};
+    Object.keys(att).forEach(function (name) {
+      var mime = Object.keys(att[name])[0];
+      if (mime) src = src.split("attachment:" + name).join("data:" + mime + ";base64," + joinSrc(att[name][mime]).replace(/\s/g, ""));
+    });
+    var html = window.marked ? window.marked.parse(src, { gfm: true }) : "<p>" + esc(src).replace(/\n{2,}/g, "</p><p>").replace(/\n/g, "<br>") + "</p>";
+    return clean(html);
+  }
+
+  function outChild(prompt, inner) {
+    return '<div class="jp-OutputArea-child"><div class="jp-OutputPrompt">' + prompt + '</div><div class="jp-OutputArea-output">' + inner + "</div></div>";
+  }
+
+  function renderOutput(o) {
+    var t = o.output_type;
+    if (t === "stream") {
+      var cls = o.name === "stderr" ? " jp-stderr" : "";
+      return outChild("", '<div class="jp-RenderedText' + cls + '"><pre>' + ansiToHtml(cleanCR(joinSrc(o.text))) + "</pre></div>");
+    }
+    if (t === "error") {
+      var tb = (o.traceback || []).join("\n") || (o.ename + ": " + o.evalue);
+      return outChild("", '<div class="jp-RenderedText jp-stderr"><pre>' + ansiToHtml(tb) + "</pre></div>");
+    }
+    if (t === "execute_result" || t === "display_data" || t === "update_display_data") {
+      var d = o.data || {};
+      var prompt = t === "execute_result" ? "Out[" + (o.execution_count == null ? " " : o.execution_count) + "]:" : "";
+      var wrapCls = t === "execute_result" ? " jp-OutputArea-executeResult" : "";
+      var inner;
+      if (d["text/html"]) inner = '<div class="jp-RenderedHTMLCommon jp-RenderedHTML">' + clean(joinSrc(d["text/html"])) + "</div>";
+      else if (d["image/svg+xml"]) inner = '<div class="jp-RenderedSVG">' + clean(joinSrc(d["image/svg+xml"]), { USE_PROFILES: { svg: true, svgFilters: true } }) + "</div>";
+      else if (d["image/png"]) inner = '<div class="jp-RenderedImage"><img alt="output image" src="data:image/png;base64,' + joinSrc(d["image/png"]).replace(/\s/g, "") + '"></div>';
+      else if (d["image/jpeg"]) inner = '<div class="jp-RenderedImage"><img alt="output image" src="data:image/jpeg;base64,' + joinSrc(d["image/jpeg"]).replace(/\s/g, "") + '"></div>';
+      else if (d["text/plain"] != null) inner = '<div class="jp-RenderedText"><pre>' + ansiToHtml(cleanCR(joinSrc(d["text/plain"]))) + "</pre></div>";
+      else return "";
+      return outChild(prompt, inner).replace('class="jp-OutputArea-child"', 'class="jp-OutputArea-child' + wrapCls + '"');
+    }
+    return "";
+  }
+
+  function buildNotebook(nb) {
+    if (!nb || !Array.isArray(nb.cells)) throw new Error("This does not look like a .ipynb notebook: no cells were found.");
+    var lang = ((nb.metadata && ((nb.metadata.language_info && nb.metadata.language_info.name) || (nb.metadata.kernelspec && nb.metadata.kernelspec.language))) || "python").toLowerCase();
+    var html = "", shown = 0, withOutput = 0;
+    nb.cells.forEach(function (cell) {
+      var src = joinSrc(cell.source);
+      if (cell.cell_type === "markdown") {
+        if (!src.trim()) return;
+        shown++;
+        html += '<div class="jp-Cell jp-MarkdownCell"><div class="jp-InputArea"><div class="jp-InputPrompt"></div><div class="jp-MarkdownOutput jp-RenderedHTMLCommon jp-RenderedMarkdown">' + markdownToHtml(cell) + "</div></div></div>";
+      } else if (cell.cell_type === "raw") {
+        if (!src.trim()) return;
+        shown++;
+        html += '<div class="jp-Cell jp-RawCell"><div class="jp-InputArea"><div class="jp-InputPrompt"></div><div class="jp-InputArea-editor"><div class="highlight"><pre>' + esc(src) + "</pre></div></div></div></div>";
+      } else if (cell.cell_type === "code") {
+        var outs = (cell.outputs || []).map(renderOutput).join("");
+        if (!src.trim() && !outs) return;
+        shown++;
+        if (outs) withOutput++;
+        var n = cell.execution_count == null ? " " : cell.execution_count;
+        var body = lang === "python" ? highlightPython(src) : esc(src);
+        html += '<div class="jp-Cell jp-CodeCell"><div class="jp-Cell-inputWrapper"><div class="jp-InputArea"><div class="jp-InputPrompt">In [' + n + ']:</div><div class="jp-InputArea-editor"><div class="highlight"><pre>' + body + "</pre></div></div></div></div>" +
+          (outs ? '<div class="jp-Cell-outputWrapper"><div class="jp-OutputArea">' + outs + "</div></div>" : "") + "</div>";
+      }
+    });
+    return { html: html, cells: shown, withOutput: withOutput };
+  }
+
+  /* ---------- sample shown before anything is uploaded ---------- */
+  var SAMPLE = { cells: [
+    { cell_type: "markdown", source: ["# Lab 2: Temperature conversion\n", "\n", "Converts **Celsius** to Fahrenheit.\n", "\n", "- Formula: `F = C * 9/5 + 32`\n", "- The temperature is read from the keyboard"] },
+    { cell_type: "code", execution_count: 1, source: ["def c_to_f(c):\n", "    # convert one value\n", "    return c * 9 / 5 + 32\n", "\n", "t = float(input(\"Enter temperature in C: \"))\n", "print(t, \"C =\", c_to_f(t), \"F\")"],
+      outputs: [{ output_type: "stream", name: "stdout", text: ["Enter temperature in C: 37\n", "37.0 C = 98.6 F\n"] }] },
+    { cell_type: "code", execution_count: 2, source: ["[c_to_f(t) for t in (0, 25, 100)]"],
+      outputs: [{ output_type: "execute_result", execution_count: 2, data: { "text/plain": ["[32.0, 77.0, 212.0]"] }, metadata: {} }] }
+  ], metadata: { language_info: { name: "python" } } };
+
+  /* ---------- app state and UI ---------- */
+  var state = { name: "notebook" };
+  var statusEl = $("#status");
+  function setStatus(msg, isError) { statusEl.textContent = msg || ""; statusEl.className = "status" + (isError ? " error" : ""); }
+
+  function estimatePages() {
+    var probe = document.createElement("div");
+    probe.style.cssText = "position:absolute;left:-99999px;top:0;width:184.6mm;visibility:hidden";
+    var clone = $("#nb").cloneNode(true);
+    clone.removeAttribute("id");
+    probe.appendChild(clone);
+    document.body.appendChild(probe);
+    var h = probe.offsetHeight;
+    document.body.removeChild(probe);
+    var pageH = 297 / 25.4 * 96 - 96;
+    var n = Math.max(1, Math.ceil(h / pageH));
+    $("#pages").textContent = "About " + n + (n === 1 ? " A4 page." : " A4 pages.") + " Scroll the preview to check it before exporting.";
+  }
+
+  function show(nb, filename, isSample) {
+    var r = buildNotebook(nb);
+    $("#nb").innerHTML = r.html || '<div class="jp-Cell"><div class="jp-InputArea"><div class="jp-InputPrompt"></div><div class="jp-RenderedText">This notebook has no cells with content.</div></div></div>';
+    state.name = (filename || "notebook").replace(/\.ipynb$/i, "").replace(/[^\w.\- ()]+/g, "_") || "notebook";
+    $("#fileInfo").innerHTML = "<b>" + esc(filename || "Sample notebook") + (isSample ? '<span class="badge">Sample</span>' : "") + "</b><small>" + r.cells + " cells &middot; " + r.withOutput + " with output</small>";
+    estimatePages();
+  }
+
+  function handleFile(file) {
+    if (!file) return;
+    setStatus("Reading " + file.name + "...");
+    var reader = new FileReader();
+    reader.onload = function () {
+      try {
+        show(JSON.parse(reader.result), file.name, false);
+        setStatus("Loaded " + file.name + ".");
+      } catch (e) {
+        setStatus(e instanceof SyntaxError ? "That file is not valid JSON, so it cannot be a notebook." : e.message, true);
+      }
+    };
+    reader.onerror = function () { setStatus("The file could not be read.", true); };
+    reader.readAsText(file);
+  }
+
+  var drop = $("#drop"), input = $("#file");
+  input.addEventListener("change", function () { handleFile(input.files[0]); input.value = ""; });
+  ["dragenter", "dragover"].forEach(function (ev) { drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.add("over"); }); });
+  ["dragleave", "dragend"].forEach(function (ev) { drop.addEventListener(ev, function () { drop.classList.remove("over"); }); });
+  drop.addEventListener("drop", function (e) { e.preventDefault(); drop.classList.remove("over"); handleFile(e.dataTransfer.files[0]); });
+  window.addEventListener("dragover", function (e) { e.preventDefault(); });
+  window.addEventListener("drop", function (e) { e.preventDefault(); });
+
+  /* ---------- exports ---------- */
+  function saveBlob(blob, filename) {
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(blob); a.download = filename;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 1500);
+  }
+
+  $("#btnHtml").addEventListener("click", function () {
+    var css = $("#nb-css").textContent;
+    var html = '<!DOCTYPE html>\n<html lang="en">\n<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>' + esc(state.name) + "</title>\n<style>\nbody { margin: 0; background: #fff; }\n.nb { padding: 10px; }\n" + css + "\n</style></head>\n<body>\n<div class=\"nb\">" + $("#nb").innerHTML + "</div>\n</body>\n</html>\n";
+    saveBlob(new Blob([html], { type: "text/html;charset=utf-8" }), state.name + ".html");
+    setStatus("Saved " + state.name + ".html");
+  });
+
+  $("#btnPrint").addEventListener("click", function () {
+    setStatus("In the print window choose “Save as PDF”, paper size A4.");
+    window.print();
+  });
+
+  $("#btnPdf").addEventListener("click", function () {
+    var btn = $("#btnPdf");
+    if (!window.html2pdf) { setStatus("The PDF library could not load. Check your internet connection, or use Print / Save as PDF.", true); return; }
+    btn.disabled = true; setStatus("Building the PDF...");
+    var opt = {
+      margin: 12.7, filename: state.name + ".pdf",
+      image: { type: "jpeg", quality: 0.98 },
+      html2canvas: { scale: 2, useCORS: true, backgroundColor: "#ffffff", scrollY: 0 },
+      jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+      pagebreak: { mode: ["css", "legacy"], avoid: [".jp-Cell", ".jp-OutputArea-child"] }
+    };
+    window.html2pdf().set(opt).from($("#nb")).save().then(function () {
+      setStatus("Saved " + state.name + ".pdf");
+    }).catch(function (e) {
+      setStatus("The PDF could not be built (" + (e && e.message || "unknown error") + "). Try Print / Save as PDF instead.", true);
+    }).then(function () { btn.disabled = false; });
+  });
+
+  show(SAMPLE, "Sample notebook", true);
+  window.__show = show; /* used by the test harness */
+})();
+</script>
+</body>
+</html>
